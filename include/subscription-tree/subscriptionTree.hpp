@@ -7,22 +7,11 @@
 #include <unordered_set>
 #include <unordered_map>
 
-struct TreeNode {
-    std::string m_topic;
-    std::string m_endpoint;
-    std::unordered_set<std::string> m_clients;
-    std::unordered_map<std::string, std::shared_ptr<TreeNode>> m_nextLevels;
-
-    TreeNode(const std::string& topic);
-
-    size_t countInternal();
-};
-
 class SubscriptionTree {
 protected:
-    std::shared_ptr<TreeNode> m_root;
+    std::unordered_map<std::string, std::unordered_set<std::string>> m_clientsToEndpoints;
+    std::unordered_map<std::string, std::unordered_set<std::string>> m_endpointsToClients;
     
-    std::unordered_map<std::string, std::unordered_set<std::string>> m_clientSubscriptionMap;
     std::unordered_map<std::string, std::vector<std::string>> m_topicLevelsMap;
 
     bool validateTopicLevel(const std::string& topicLevel);
