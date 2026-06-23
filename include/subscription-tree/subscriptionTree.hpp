@@ -29,7 +29,7 @@ protected:
     bool validateEndpoint(const std::string& endpoint, std::vector<std::string>& topicLevels);
     bool isMatched(const std::vector<std::string>& endpoint, size_t endpointIndex,
                    const std::vector<std::string>& target, size_t targetIndex);
-    std::unordered_set<std::string> getClients(const std::string& endpoint, const std::vector<std::string>& topicLevels);
+    
 public:
     explicit SubscriptionTree();
     bool addSubscription(const std::string& clientID, const std::string& endpoint);

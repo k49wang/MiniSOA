@@ -140,22 +140,6 @@ bool SubscriptionTree::isMatched(const std::vector<std::string>& endpoint, size_
     }
 }
 
-// std::unordered_set<std::string> SubscriptionTree::getClients(const std::string& endpoint, const std::vector<std::string>& topicLevels) {
-//     auto currNode = m_root;
-//     std::unordered_set<std::string> clients;
-//     for (const auto& topic : topicLevels) {
-//         if (currNode->m_nextLevels.find(topic) != currNode->m_nextLevels.end()) {
-//             currNode = currNode->m_nextLevels[topic];
-//         } else if (currNode->m_leaves.find(topic) != currNode->m_leaves.end()) {
-//             const auto& clientInfo = currNode->m_leaves[topic];
-//             if (clientInfo.first != endpoint) return clients;
-//             return clientInfo.second;
-//         } else {
-//             return clients;
-//         }
-//     }
-//     return currNode->m_clients;
-// }
 std::vector<std::string> SubscriptionTree::getSubscribedClients(const std::string& endpoint) {
     std::vector<std::string> clients;
     std::vector<std::string> topicLevels;
@@ -163,30 +147,13 @@ std::vector<std::string> SubscriptionTree::getSubscribedClients(const std::strin
     for (const auto& topicLevel : topicLevels) {
         if (topicLevel == "+" || topicLevel == "#") return clients;
     }
-    // std::vector<std::string> matchedEndpoints;
-    // for (const auto& item : m_topicLevelsMap) {
-    //     const auto& curr = item.second;
-    //     if (isMatched(curr, 0, topicLevels, 0)) {
-    //         matchedEndpoints.emplace_back(item.first);
-    //     }
-    // }
-    // std::unordered_set<std::string> temp;
-    // for (auto& matched : matchedEndpoints) {
-    //     auto matchedClients = getClients(matched, m_topicLevelsMap[matched]);
-    //     for (auto& client : matchedClients) {
-    //         temp.emplace(client);
-    //     }
-    // }
-    // for (auto& client : temp) clients.emplace_back(client);
-    // return clients;
+
     std::vector<std::vector<std::string>> matchedEndpoints;
     for (const auto& item : m_topicLevelsMap) {
         const auto& curr = item.second;
-        // printf("curr endpoint: [%s]\n", item.first.c_str());
         if (isMatched(curr, 0, topicLevels, 0)) {
             matchedEndpoints.emplace_back(curr);
         }
-        // printf("done\n");
     }
     std::unordered_set<std::string> temp;
     for (auto& matched : matchedEndpoints) {
